@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PYQ Papers | Apna Library</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ============================================================
+           PREMIUM WHITE THEME VARIABLES (Same as Main Page)
+           ============================================================ */
+        :root {
+            --bg-pure: #ffffff;
+            --bg-offwhite: #f8f9fa;
+            --bg-glass: rgba(255, 255, 255, 0.95);
+            --gold-primary: #D4AF37;
+            --gold-hover: #b5952f;
+            --text-dark: #111827;
+            --text-muted: #4b5563;
+            --border-light: rgba(0, 0, 0, 0.08);
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 15px 40px rgba(212, 175, 55, 0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { background: var(--bg-offwhite); color: var(--text-dark); }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-offwhite); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-primary); border-radius: 10px; }
+        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+
+        /* ============================================================
+           NAVBAR (Reused for consistency)
+           ============================================================ */
+        nav {
+            position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; background: var(--bg-glass); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-light); z-index: 1000; box-shadow: var(--shadow-soft);
+        }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--text-dark); letter-spacing: 1px; text-decoration: none;}
+        .logo span { color: var(--gold-primary); font-size: 0.65rem; display: block; letter-spacing: 4px; font-family: 'Inter', sans-serif; text-transform: uppercase; }
+        
+        .nav-actions { display: flex; align-items: center; gap: 15px; }
+        .back-btn { font-size: 0.9rem; font-weight: 600; color: var(--text-dark); text-decoration: none; border: 1px solid var(--border-light); padding: 8px 15px; border-radius: 20px; transition: 0.3s; }
+        .back-btn:hover { background: var(--gold-primary); color: #fff; border-color: var(--gold-primary); }
+
+        /* ============================================================
+           PAGE HEADER & BREADCRUMBS
+           ============================================================ */
+        .page-header { padding: 120px 5% 40px; background: var(--bg-pure); text-align: center; border-bottom: 1px solid var(--border-light); }
+        .breadcrumbs { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; }
+        .breadcrumbs a { color: var(--gold-primary); text-decoration: none; font-weight: 500; }
+        .page-header h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--text-dark); margin-bottom: 10px; }
+        .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto; }
+
+        /* ============================================================
+           CATEGORY SECTIONS
+           ============================================================ */
+        .category-container { padding: 60px 5%; max-width: 1200px; margin: 0 auto; }
+        
+        .exam-section { margin-bottom: 60px; }
+        .exam-section-title { font-size: 1.8rem; color: var(--text-dark); border-bottom: 2px solid var(--border-light); padding-bottom: 10px; margin-bottom: 30px; display: flex; align-items: center; gap: 15px; }
+        .exam-section-title i { color: var(--gold-primary); }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        
+        .exam-sub-card {
+            background: var(--bg-pure); border: 1px solid var(--border-light); border-radius: 12px;
+            padding: 25px; text-decoration: none; color: var(--text-dark); transition: var(--transition);
+            display: flex; flex-direction: column; align-items: flex-start; gap: 15px; box-shadow: var(--shadow-soft);
+        }
+        .exam-sub-card:hover { transform: translateY(-5px); border-color: var(--gold-primary); box-shadow: var(--shadow-hover); }
+        
+        .exam-sub-card .icon-box { width: 50px; height: 50px; background: var(--bg-offwhite); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--gold-primary); transition: 0.3s; }
+        .exam-sub-card:hover .icon-box { background: var(--gold-primary); color: #fff; }
+        
+        .exam-sub-card h3 { font-size: 1.1rem; font-family: 'Inter', sans-serif; font-weight: 600; }
+        .exam-sub-card span { font-size: 0.8rem; color: var(--text-muted); background: var(--bg-offwhite); padding: 4px 10px; border-radius: 20px; }
+
+        /* ============================================================
+           FOOTER (Simplified for sub-pages)
+           ============================================================ */
+        footer { background: var(--text-dark); color: #fff; padding: 40px 5%; text-align: center; margin-top: 40px;}
+        .footer-logo { font-size: 1.5rem; font-weight: 800; font-family: 'Playfair Display', serif; margin-bottom: 10px;}
+        .footer-logo span { color: var(--gold-primary); }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="index.html" class="logo">APNA <span>Library</span></a>
+        <div class="nav-actions">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <header class="page-header">
+        <div class="breadcrumbs"><a href="index.html">Home</a> &nbsp;>&nbsp; PYQ Papers Archive</div>
+        <h1 class="serif">Exam Categories</h1>
+        <p>Access the last 10 years of Previous Year Question (PYQ) papers. Select your target examination below.</p>
+    </header>
+
+    <!-- MAIN CATEGORY CONTAINER -->
+    <main class="category-container">
+        
+        <!-- 1. CENTRAL EXAMS -->
+        <section class="exam-section">
+            <h2 class="exam-section-title serif"><i class="fas fa-building-columns"></i> Central Government & UPSC</h2>
+            <div class="cards-grid">
+                <a href="#" class="exam-sub-card" onclick="alert('Proceeding to UPSC CSE Papers (exam.html)')">
+                    <div class="icon-box"><i class="fas fa-pen-nib"></i></div>
+                    <h3>UPSC CSE (IAS/IPS)</h3>
+                    <span>Prelims & Mains (10 Years)</span>
+                </a>
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-chart-line"></i></div>
+                    <h3>SSC CGL</h3>
+                    <span>Tier 1 & 2 (All Shifts)</span>
+                </a>
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-file-signature"></i></div>
+                    <h3>SSC CHSL & MTS</h3>
+                    <span>Complete Archive</span>
+                </a>
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-train"></i></div>
+                    <h3>Railway (RRB NTPC/ALP)</h3>
+                    <span>Group C & D</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 2. STATE EXAMS -->
+        <section class="exam-section">
+            <h2 class="exam-section-title serif"><i class="fas fa-landmark-flag"></i> State PSC & Police (UP/Bihar)</h2>
+            <div class="cards-grid">
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-gavel"></i></div>
+                    <h3>UPPSC (Upper Subordinate)</h3>
+                    <span>Last 10 Years PYQ</span>
+                </a>
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-shield-alt"></i></div>
+                    <h3>UP Police Constable</h3>
+                    <span>All Shift Papers</span>
+                </a>
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-star"></i></div>
+                    <h3>UP SI (Daroga)</h3>
+                    <span>Previous Exams Archive</span>
+                </a>
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-map"></i></div>
+                    <h3>BPSC & Bihar Police</h3>
+                    <span>Prelims & Mains</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 3. DEFENCE & TEACHING -->
+        <section class="exam-section">
+            <h2 class="exam-section-title serif"><i class="fas fa-jet-fighter"></i> Defence & Teaching Exams</h2>
+            <div class="cards-grid">
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-medal"></i></div>
+                    <h3>NDA & NA</h3>
+                    <span>Maths & GAT Papers</span>
+                </a>
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-fighter-jet"></i></div>
+                    <h3>CDS & AFCAT</h3>
+                    <span>Airforce, Navy, Army</span>
+                </a>
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <h3>CTET & UPTET</h3>
+                    <span>Paper 1 & Paper 2</span>
+                </a>
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-book-reader"></i></div>
+                    <h3>Super TET / TGT / PGT</h3>
+                    <span>Teaching Recruitment</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 4. ACADEMICS & ENTRANCE -->
+        <section class="exam-section">
+            <h2 class="exam-section-title serif"><i class="fas fa-atom"></i> Academics & Entrances</h2>
+            <div class="cards-grid">
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-laptop-code"></i></div>
+                    <h3>JEE Main & Advanced</h3>
+                    <span>Engineering Entrances</span>
+                </a>
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-stethoscope"></i></div>
+                    <h3>NEET (UG)</h3>
+                    <span>Medical Entrances</span>
+                </a>
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-school"></i></div>
+                    <h3>CBSE / ICSE Board</h3>
+                    <span>Class 10th & 12th PYQs</span>
+                </a>
+                <a href="#" class="exam-sub-card">
+                    <div class="icon-box"><i class="fas fa-university"></i></div>
+                    <h3>CUET (UG & PG)</h3>
+                    <span>Central Universities</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">APNA <span>Library</span></div>
+        <p style="color:#9ca3af; font-size:0.85rem; margin-top: 5px;">Mega PYQ Archive - Designed for Excellence.</p>
+    </footer>
+
+</body>
+</html>
