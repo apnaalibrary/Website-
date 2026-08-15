@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Availability | Apna Library</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ============================================================
+           PREMIUM WHITE THEME VARIABLES
+           ============================================================ */
+        :root {
+            --bg-pure: #ffffff;
+            --bg-offwhite: #f8f9fa;
+            --bg-glass: rgba(255, 255, 255, 0.95);
+            --gold-primary: #D4AF37;
+            --gold-hover: #b5952f;
+            --text-dark: #111827;
+            --text-muted: #4b5563;
+            --border-light: rgba(0, 0, 0, 0.08);
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 15px 40px rgba(212, 175, 55, 0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            
+            /* Status Colors */
+            --status-green: #10b981;
+            --status-orange: #f59e0b;
+            --status-red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg-offwhite); color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-offwhite); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-primary); border-radius: 10px; }
+        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
+        nav {
+            position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; background: var(--bg-glass); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-light); z-index: 1000; box-shadow: var(--shadow-soft);
+        }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--text-dark); letter-spacing: 1px; text-decoration: none;}
+        .logo span { color: var(--gold-primary); font-size: 0.65rem; display: block; letter-spacing: 4px; font-family: 'Inter', sans-serif; text-transform: uppercase; }
+        
+        .nav-actions { display: flex; align-items: center; gap: 15px; }
+        .back-btn { font-size: 0.9rem; font-weight: 600; color: var(--text-dark); text-decoration: none; border: 1px solid var(--border-light); padding: 8px 15px; border-radius: 20px; transition: 0.3s; }
+        .back-btn:hover { background: var(--gold-primary); color: #fff; border-color: var(--gold-primary); }
+
+        /* ============================================================
+           PAGE HEADER
+           ============================================================ */
+        .page-header { padding: 120px 5% 40px; background: var(--bg-pure); text-align: center; border-bottom: 1px solid var(--border-light); }
+        .breadcrumbs { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; }
+        .breadcrumbs a { color: var(--gold-primary); text-decoration: none; font-weight: 500; }
+        .page-header h1 { font-size: clamp(2rem, 4vw, 3rem); color: var(--text-dark); margin-bottom: 10px; }
+        .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto; }
+
+        /* ============================================================
+           SEAT STATUS DASHBOARD
+           ============================================================ */
+        .dashboard-container { padding: 60px 5%; max-width: 1200px; margin: 0 auto; flex-grow: 1; width: 100%; }
+        
+        .overall-status {
+            background: var(--bg-pure); padding: 40px; border-radius: 20px; text-align: center;
+            border: 1px solid var(--gold-primary); box-shadow: var(--shadow-hover); margin-bottom: 50px;
+            position: relative; overflow: hidden;
+        }
+        .overall-status::before { content: "LIVE"; position: absolute; top: 15px; right: -25px; background: #e11d48; color: #fff; font-size: 0.75rem; font-weight: bold; padding: 5px 30px; transform: rotate(45deg); letter-spacing: 2px;}
+        
+        .status-numbers { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px; margin-top: 20px; }
+        .stat-item h1 { font-size: 3.5rem; line-height: 1; margin-bottom: 5px; color: var(--text-dark); }
+        .stat-item span { font-size: 0.95rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        
+        .text-green { color: var(--status-green) !important; }
+        .text-orange { color: var(--status-orange) !important; }
+        
+        /* ============================================================
+           SHIFT WISE CARDS
+           ============================================================ */
+        .section-title { font-size: 1.8rem; color: var(--text-dark); margin-bottom: 30px; text-align: center; }
+        .shift-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
+        .shift-card {
+            background: var(--bg-pure); border: 1px solid var(--border-light); padding: 30px;
+            border-radius: 16px; box-shadow: var(--shadow-soft); transition: var(--transition);
+        }
+        .shift-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: rgba(212, 175, 55, 0.3); }
+        
+        .shift-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border-light); padding-bottom: 15px; }
+        .shift-header h3 { font-size: 1.3rem; color: var(--text-dark); display: flex; align-items: center; gap: 10px; }
+        .shift-header i { color: var(--gold-primary); font-size: 1.5rem; }
+        
+        .badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .badge.open { background: rgba(16, 185, 129, 0.1); color: var(--status-green); border: 1px solid var(--status-green); }
+        .badge.fast-filling { background: rgba(245, 158, 11, 0.1); color: var(--status-orange); border: 1px solid var(--status-orange); }
+        .badge.full { background: rgba(239, 68, 68, 0.1); color: var(--status-red); border: 1px solid var(--status-red); }
+
+        .shift-details { margin-bottom: 25px; }
+        .shift-details p { display: flex; justify-content: space-between; font-size: 0.95rem; color: var(--text-muted); margin-bottom: 10px; }
+        .shift-details p strong { color: var(--text-dark); font-weight: 600; }
+        
+        .progress-bar { width: 100%; height: 8px; background: var(--bg-offwhite); border-radius: 10px; overflow: hidden; margin-top: 15px;}
+        .progress-fill { height: 100%; border-radius: 10px; transition: 1s ease-out; }
+
+        .btn-gold { 
+            width: 100%; padding: 14px; background: var(--gold-primary); color: #fff; border: none; 
+            border-radius: 8px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: 0.3s;
+        }
+        .btn-gold:hover { background: var(--text-dark); }
+        .btn-disabled { background: var(--bg-offwhite); color: var(--text-muted); cursor: not-allowed; border: 1px solid var(--border-light); }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        footer { background: var(--text-dark); color: #fff; padding: 40px 5%; text-align: center; margin-top: auto;}
+        .footer-logo { font-size: 1.5rem; font-weight: 800; font-family: 'Playfair Display', serif; margin-bottom: 10px;}
+        .footer-logo span { color: var(--gold-primary); }
+
+        @media (max-width: 768px) {
+            .status-numbers { flex-direction: column; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="index.html" class="logo">APNA <span>Library</span></a>
+        <div class="nav-actions">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <header class="page-header">
+        <div class="breadcrumbs"><a href="index.html">Home</a> &nbsp;>&nbsp; Seat Availability</div>
+        <h1 class="serif">Live Seat Dashboard</h1>
+        <p>Check real-time occupancy across different shifts before booking your dedicated study space.</p>
+    </header>
+
+    <!-- MAIN DASHBOARD -->
+    <main class="dashboard-container">
+        
+        <!-- Overall Status -->
+        <div class="overall-status">
+            <h3 class="serif" style="color: var(--text-dark); font-size: 1.5rem; margin-bottom: 10px;">Overall Capacity Overview</h3>
+            <div class="status-numbers">
+                <div class="stat-item">
+                    <h1>120</h1>
+                    <span>Total Capacity</span>
+                </div>
+                <div class="stat-item">
+                    <h1 class="text-orange">102</h1>
+                    <span>Currently Occupied</span>
+                </div>
+                <div class="stat-item">
+                    <h1 class="text-green">18</h1>
+                    <span>Available Seats</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shift Wise Grid -->
+        <h2 class="section-title serif">Shift-wise Availability</h2>
+        <div class="shift-grid">
+            
+            <!-- Morning Shift -->
+            <div class="shift-card">
+                <div class="shift-header">
+                    <h3><i class="fas fa-sun"></i> Morning Shift</h3>
+                    <span class="badge full">House Full</span>
+                </div>
+                <div class="shift-details">
+                    <p>Timing: <strong>06:00 AM - 02:00 PM</strong></p>
+                    <p>Available Seats: <strong>0 / 120</strong></p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%; background: var(--status-red);"></div>
+                    </div>
+                </div>
+                <button class="btn-gold btn-disabled" disabled>Fully Booked</button>
+            </div>
+
+            <!-- Evening Shift -->
+            <div class="shift-card">
+                <div class="shift-header">
+                    <h3><i class="fas fa-cloud-sun"></i> Evening Shift</h3>
+                    <span class="badge fast-filling">Fast Filling</span>
+                </div>
+                <div class="shift-details">
+                    <p>Timing: <strong>02:00 PM - 10:00 PM</strong></p>
+                    <p>Available Seats: <strong>8 / 120</strong></p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 93%; background: var(--status-orange);"></div>
+                    </div>
+                </div>
+                <button class="btn-gold" onclick="alert('Redirecting to seat booking form...')">Request Seat</button>
+            </div>
+
+            <!-- Night Shift -->
+            <div class="shift-card">
+                <div class="shift-header">
+                    <h3><i class="fas fa-moon"></i> Night Shift</h3>
+                    <span class="badge open">Seats Open</span>
+                </div>
+                <div class="shift-details">
+                    <p>Timing: <strong>10:00 PM - 06:00 AM</strong></p>
+                    <p>Available Seats: <strong>10 / 120</strong></p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 91%; background: var(--status-green);"></div>
+                    </div>
+                </div>
+                <button class="btn-gold" onclick="alert('Redirecting to seat booking form...')">Request Seat</button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">APNA <span>Library</span></div>
+        <p style="color:#9ca3af; font-size:0.85rem; margin-top: 5px;">Your ultimate destination for focused preparation.</p>
+    </footer>
+
+</body>
+</html>
