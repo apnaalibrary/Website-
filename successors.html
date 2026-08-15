@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hall of Fame & Successors | Apna Library</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-pure: #ffffff; --bg-offwhite: #f8f9fa; --bg-glass: rgba(255, 255, 255, 0.95);
+            --gold-primary: #D4AF37; --text-dark: #111827; --text-muted: #4b5563;
+            --border-light: rgba(0, 0, 0, 0.08); --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 15px 40px rgba(212, 175, 55, 0.15); --transition: all 0.3s ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg-offwhite); color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; }
+        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+
+        nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: var(--bg-glass); backdrop-filter: blur(15px); border-bottom: 1px solid var(--border-light); z-index: 1000; box-shadow: var(--shadow-soft); }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--text-dark); text-decoration: none; }
+        .logo span { color: var(--gold-primary); font-size: 0.65rem; display: block; letter-spacing: 4px; text-transform: uppercase; }
+        .back-btn { font-size: 0.9rem; font-weight: 600; color: var(--text-dark); text-decoration: none; border: 1px solid var(--border-light); padding: 8px 15px; border-radius: 20px; transition: 0.3s; }
+        .back-btn:hover { background: var(--gold-primary); color: #fff; border-color: var(--gold-primary); }
+
+        .page-header { padding: 120px 5% 40px; background: var(--bg-pure); text-align: center; border-bottom: 1px solid var(--border-light); }
+        .breadcrumbs { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; }
+        .breadcrumbs a { color: var(--gold-primary); text-decoration: none; }
+        .page-header h1 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 10px; }
+
+        .container { padding: 60px 5%; max-width: 1200px; margin: 0 auto; flex-grow: 1; width: 100%; }
+        .success-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; }
+        .success-card { background: var(--bg-pure); border: 1px solid var(--border-light); padding: 30px 20px; border-radius: 16px; text-align: center; box-shadow: var(--shadow-soft); transition: var(--transition); }
+        .success-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: var(--gold-primary); }
+        .success-img { width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 20px; background: #e5e7eb; border: 3px solid var(--gold-primary); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--text-muted); }
+        .success-card h4 { font-size: 1.2rem; margin-bottom: 5px; }
+        .success-card span { color: var(--gold-primary); font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 8px; }
+        .success-card p { font-size: 0.85rem; color: var(--text-muted); }
+
+        footer { background: var(--text-dark); color: #fff; padding: 40px 5%; text-align: center; margin-top: auto; }
+        .footer-logo { font-size: 1.5rem; font-weight: 800; font-family: 'Playfair Display', serif; margin-bottom: 10px; }
+        .footer-logo span { color: var(--gold-primary); }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">APNA <span>Library</span></a>
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    </nav>
+
+    <header class="page-header">
+        <div class="breadcrumbs"><a href="index.html">Home</a> &nbsp;>&nbsp; Hall of Fame</div>
+        <h1 class="serif">Our Successors</h1>
+        <p>Celebrating the dedication and selection of our students in prestigious exams.</p>
+    </header>
+
+    <main class="container">
+        <div class="success-grid">
+            <div class="success-card">
+                <div class="success-img"><i class="fas fa-user"></i></div>
+                <h4>Ravi Kumar</h4>
+                <span>UPPSC Selected</span>
+                <p>Batch of 2025</p>
+            </div>
+            <div class="success-card">
+                <div class="success-img"><i class="fas fa-user"></i></div>
+                <h4>Sneha Singh</h4>
+                <span>SSC CGL Inspector</span>
+                <p>Batch of 2025</p>
+            </div>
+            <div class="success-card">
+                <div class="success-img"><i class="fas fa-user"></i></div>
+                <h4>Amit Yadav</h4>
+                <span>UP Police Sub-Inspector</span>
+                <p>Batch of 2024</p>
+            </div>
+            <div class="success-card">
+                <div class="success-img"><i class="fas fa-user"></i></div>
+                <h4>Priya Tiwari</h4>
+                <span>NEET UG (680/720)</span>
+                <p>Batch of 2026</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-logo">APNA <span>Library</span></div>
+        <p style="color:#9ca3af; font-size:0.85rem;">Hall of Fame - Apna Library</p>
+    </footer>
+</body>
+</html>
