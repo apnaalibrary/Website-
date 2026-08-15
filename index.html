@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APNA LIBRARY — Your Exam. Your Resources. Your Library.</title>
+<meta name="description" content="Digital self-study library for NDA, SSC, Railway, Banking, Teaching aur sabhi competitive exams — syllabus, PYQ, notifications, sab ek jagah.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">A</span>
+      <span class="brand-text"><b>APNA LIBRARY</b><span data-i18n="tagline_brand">Digital Self-Study</span></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html" data-i18n="nav_home">Home</a>
+      <a href="category.html" data-i18n="nav_exams">Exams</a>
+      <a href="index.html#pyq" data-i18n="nav_pyq">PYQ</a>
+      <a href="index.html#syllabus" data-i18n="nav_syllabus">Syllabus</a>
+      <a href="index.html#notifications" data-i18n="nav_notifications">Notifications</a>
+      <a href="index.html#gallery" data-i18n="nav_gallery">Gallery</a>
+      <a href="index.html#contact" data-i18n="nav_contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <div id="lang-switcher"></div>
+      <a href="admin/index.html" class="icon-btn" title="Admin Login" aria-label="Admin Login">🔐</a>
+      <button class="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-slider">
+
+    <div class="slide active">
+      <div class="slide-grid">
+        <div>
+          <div class="slide-index mono" data-i18n="hero_eyebrow1">— WELCOME</div>
+          <h1 data-i18n="hero_h1">Your Exam. Your<br>Resources. Your Library.</h1>
+          <p class="tagline" data-i18n="hero_tagline1">NDA se lekar SSC, Railway, Banking, Teaching aur State exams tak — syllabus, previous year papers, notifications aur mock tests, sab ek hi jagah, ek hi digital library mein.</p>
+          <div class="hero-cta">
+            <a href="category.html" class="btn btn-primary" data-i18n="hero_btn_explore">Explore Exams →</a>
+            <a href="index.html#notifications" class="btn btn-outline" data-i18n="hero_btn_latest">Latest Notifications</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="catalogue-stack">
+            <div class="stack-card"><b>NDA & NA</b><span>DEFENCE · 004</span></div>
+            <div class="stack-card"><b>SSC CGL</b><span>SSC · 011</span></div>
+            <div class="stack-card"><b>CTET</b><span>TEACHING · 007</span></div>
+            <div class="stack-card"><b>RRB NTPC</b><span>RAILWAY · 019</span></div>
+          </div>
+          <div class="stat-card" style="bottom:-16px;right:-16px">
+            <b id="hero-exam-count">18+</b><span data-i18n="hero_stat_label">Exams Catalogued</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-grid">
+        <div>
+          <div class="slide-index mono" data-i18n="hero_eyebrow2">— FROM THE DIRECTOR'S DESK</div>
+          <p class="quote">"Education becomes powerful when the right resources reach the right student at the right time. APNA LIBRARY was built with exactly that belief."</p>
+          <div class="quote-by">Director, Apna Library</div>
+          <div class="hero-cta"><a href="index.html#contact" class="btn btn-outline" data-i18n="hero_btn_readmore">Read More →</a></div>
+        </div>
+        <div class="hero-visual" style="display:flex;align-items:center;justify-content:center">
+          <div style="width:180px;height:180px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:64px;color:var(--navy)">🎓</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-grid">
+        <div>
+          <div class="slide-index mono" data-i18n="hero_eyebrow3">— WHAT YOU GET</div>
+          <h2 data-i18n="hero_h3">Everything a Serious<br>Aspirant Needs.</h2>
+          <p class="tagline" data-i18n="hero_tagline3">Digital resources, previous year papers, exam preparation tools aur online practice — ek organized dashboard mein.</p>
+          <div class="hero-cta"><a href="category.html" class="btn btn-primary" data-i18n="hero_btn_start">Start Exploring →</a></div>
+        </div>
+        <div class="hero-visual">
+          <div class="catalogue-stack">
+            <div class="stack-card"><b>📚 Digital Resources</b><span>ALL EXAMS</span></div>
+            <div class="stack-card"><b>📝 PYQ Collection</b><span>YEAR-WISE</span></div>
+            <div class="stack-card"><b>🎯 Exam Preparation</b><span>SYLLABUS</span></div>
+            <div class="stack-card"><b>💻 Online Practice</b><span>COMING SOON</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-dots">
+      <button class="dot active" aria-label="Slide 1"></button>
+      <button class="dot" aria-label="Slide 2"></button>
+      <button class="dot" aria-label="Slide 3"></button>
+    </div>
+  </div>
+</section>
+
+<section class="important-links">
+  <div class="wrap links-row">
+    <span class="links-row-label" data-i18n="important_links">Important Links</span>
+    <div id="links-ticker" style="display:flex;gap:24px;align-items:center"></div>
+  </div>
+</section>
+
+<div class="wrap catalogue-search">
+  <div class="search-box">
+    <span style="padding-left:8px">🔍</span>
+    <input id="search-input" type="text" data-i18n-ph="search_placeholder" placeholder="Search Exam, PYQ, Syllabus... e.g. NDA, SSC CGL, CTET">
+    <button type="button" data-i18n="search_btn" onclick="document.getElementById('search-input').focus()">Search</button>
+    <div id="search-results"></div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="eyebrow_trending">Trending Right Now</div>
+    <div class="pill-row" id="trending-pills"></div>
+  </div>
+</section>
+
+<section class="section section-shelf" id="categories">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" data-i18n="eyebrow_browse">Browse by Category</div>
+        <h2 data-i18n="heading_explore">Explore APNA LIBRARY</h2>
+      </div>
+      <a href="category.html" class="view-all" data-i18n="view_all_cat">View All Categories →</a>
+    </div>
+    <div class="cat-grid" id="category-grid"></div>
+  </div>
+</section>
+
+<section class="section" id="pyq">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" data-i18n="eyebrow_featured">Featured Exams</div>
+        <h2 data-i18n="heading_popular">Popular Right Now</h2>
+      </div>
+    </div>
+    <div class="card-grid" id="featured-exam-grid"></div>
+  </div>
+</section>
+
+<section class="section section-shelf" id="notifications">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" data-i18n="eyebrow_live">🔴 Live Updates</div>
+        <h2 data-i18n="heading_latest_notif">Latest Notifications</h2>
+      </div>
+    </div>
+    <div class="ledger" id="notification-ledger"></div>
+  </div>
+</section>
+
+<section class="section" id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" data-i18n="eyebrow_campus">Campus & Library</div>
+        <h2 data-i18n="heading_gallery">Gallery</h2>
+      </div>
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
+<section class="section section-shelf">
+  <div class="wrap">
+    <div class="query-panel">
+      <div>
+        <div class="eyebrow" style="color:var(--gold)" data-i18n="eyebrow_question">Have a Question?</div>
+        <h2 data-i18n="heading_ask">Ask Us Anything</h2>
+        <p data-i18n="query_desc">Exam, syllabus, notification ya kisi bhi cheez ke baare mein poochho — hum WhatsApp ya Email par jaldi reply karenge.</p>
+      </div>
+      <form id="query-form">
+        <div class="field"><label data-i18n="field_name">Name</label><input id="q-name" type="text" data-i18n-ph="ph_name" placeholder="Your full name" required></div>
+        <div class="field"><label data-i18n="field_mobile">Mobile Number</label><input id="q-mobile" type="tel" data-i18n-ph="ph_mobile" placeholder="10-digit mobile number"></div>
+        <div class="field"><label data-i18n="field_email">Email</label><input id="q-email" type="email" placeholder="you@example.com"></div>
+        <div class="field"><label data-i18n="field_exam_cat">Exam / Category</label><input id="q-exam" type="text" placeholder="e.g. NDA, SSC CGL"></div>
+        <div class="field"><label data-i18n="field_query">Your Query</label><textarea id="q-query" data-i18n-ph="ph_query" placeholder="Type your question here..."></textarea></div>
+        <div class="query-actions">
+          <button id="submit-whatsapp" class="btn btn-wa" type="submit" data-i18n="btn_whatsapp">🟢 Submit via WhatsApp</button>
+          <button id="submit-email" class="btn btn-mail" type="submit" data-i18n="btn_email">✉️ Submit via Email</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="section-head"><div><div class="eyebrow" data-i18n="eyebrow_touch">Get in Touch</div><h2 data-i18n="heading_contact">Contact & Location</h2></div></div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2 data-i18n="contact_us">Contact Us</h2>
+        <div class="contact-row">📍 <div><b data-i18n="label_address">Address</b><span data-i18n="address_placeholder">Admin panel se update hoga</span></div></div>
+        <div class="contact-row">📞 <div><b data-i18n="label_phone">Phone</b>+91 XXXXX XXXXX</div></div>
+        <div class="contact-row">✉️ <div><b data-i18n="label_email">Email</b>contact@apnalibrary.in</div></div>
+        <div class="contact-row">🕐 <div><b data-i18n="label_hours">Working Hours</b>Mon–Sat, 9:00 AM – 7:00 PM</div></div>
+      </div>
+      <div class="map-embed">
+        <iframe class="map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=India&output=embed"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <b style="font-family:'Fraunces',serif;font-size:20px;color:#fff">APNA LIBRARY</b>
+        <p data-i18n="footer_desc">Digital self-study library for every competitive exam aspirant — syllabus, PYQ, notifications aur practice, sab ek jagah.</p>
+      </div>
+      <div><h4 data-i18n="footer_explore">Explore</h4>
+        <a href="category.html" data-i18n="footer_all_exams">All Exams</a><a href="index.html#notifications" data-i18n="nav_notifications">Notifications</a><a href="index.html#gallery" data-i18n="nav_gallery">Gallery</a>
+      </div>
+      <div><h4 data-i18n="footer_categories">Categories</h4>
+        <a href="category.html?cat=defence">Defence</a><a href="category.html?cat=ssc">SSC</a><a href="category.html?cat=banking">Banking</a><a href="category.html?cat=railway">Railway</a>
+      </div>
+      <div><h4 data-i18n="footer_company">Company</h4>
+        <a href="index.html#contact" data-i18n="nav_contact">Contact</a><a href="admin/index.html" data-i18n="admin_login">Admin Login</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer_rights">© 2026 APNA LIBRARY. All rights reserved.</span>
+      <span data-i18n="footer_tag">Built as a Digital Self-Study Platform</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
