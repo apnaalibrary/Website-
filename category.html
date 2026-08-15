@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Exams — APNA LIBRARY</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .cat-hero{background:var(--shelf);border-bottom:1px solid var(--line);padding:56px 0 32px}
+  .filter-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+  .filter-chip{padding:9px 18px;border:1px solid var(--line);border-radius:20px;font-size:13px;font-weight:600;background:var(--paper);cursor:pointer}
+  .filter-chip.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">A</span>
+      <span class="brand-text"><b>APNA LIBRARY</b><span data-i18n="tagline_brand">Digital Self-Study</span></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html" data-i18n="nav_home">Home</a>
+      <a href="category.html" data-i18n="nav_exams">Exams</a>
+      <a href="index.html#notifications" data-i18n="nav_notifications">Notifications</a>
+      <a href="index.html#gallery" data-i18n="nav_gallery">Gallery</a>
+      <a href="index.html#contact" data-i18n="nav_contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <div id="lang-switcher"></div>
+      <a href="admin/index.html" class="icon-btn" title="Admin Login">Admin</a>
+      <button class="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="cat-hero">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="eyebrow_catalogue">Full Catalogue</div>
+    <h1 style="font-size:36px;color:var(--navy-deep)" data-i18n="heading_all_exams">All Exams</h1>
+    <p style="color:var(--ink-soft);margin-top:8px" data-i18n="cat_page_sub">Category select karo ya seedha exam search karo.</p>
+    <div class="filter-row" id="filter-row"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="card-grid" id="all-exam-grid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-bottom" style="border-top:none">
+    <span data-i18n="footer_rights">© 2026 APNA LIBRARY. All rights reserved.</span>
+    <a href="index.html" style="color:#B9C2D6" data-i18n="back_home">← Back to Home</a>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  let activeCat = params.get('cat') || 'all';
+
+  function renderFilters(){
+    const el = document.getElementById('filter-row');
+    const chips = [{id:'all',name:{hg:t('filter_all'),en:t('filter_all'),hi:t('filter_all'),bn:t('filter_all'),mr:t('filter_all')},icon:'📚'}, ...CATEGORIES];
+    el.innerHTML = chips.map(c=>`
+      <button class="filter-chip ${c.id===activeCat?'active':''}" data-cat="${c.id}">${c.icon} ${tf(c.name)}</button>
+    `).join('');
+    el.querySelectorAll('.filter-chip').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        activeCat = btn.dataset.cat;
+        el.querySelectorAll('.filter-chip').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        renderList();
+      });
+    });
+  }
+
+  function renderList(){
+    const list = activeCat === 'all' ? EXAMS : EXAMS.filter(e=>e.category===activeCat);
+    renderExamCards('all-exam-grid', list);
+  }
+
+  window.onLanguageChangeExtra = function(){
+    renderFilters();
+    renderList();
+  };
+
+  renderFilters();
+  renderList();
+</script>
+</body>
+</html>
