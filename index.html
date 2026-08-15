@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apna Library | Premium Reading Ecosystem</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ============================================================
+           PREMIUM WHITE THEME VARIABLES
+           ============================================================ */
+        :root {
+            --bg-pure: #ffffff;
+            --bg-offwhite: #f8f9fa;
+            --bg-glass: rgba(255, 255, 255, 0.95);
+            --gold-primary: #D4AF37;
+            --gold-hover: #b5952f;
+            --text-dark: #111827;
+            --text-muted: #4b5563;
+            --border-light: rgba(0, 0, 0, 0.08);
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 15px 40px rgba(212, 175, 55, 0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { background: var(--bg-pure); color: var(--text-dark); overflow-x: hidden; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-offwhite); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-primary); border-radius: 10px; }
+
+        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+
+        /* ============================================================
+           NAVBAR & TICKER
+           ============================================================ */
+        nav {
+            position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; background: var(--bg-glass); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-light); z-index: 1000; box-shadow: var(--shadow-soft);
+        }
+        
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--text-dark); letter-spacing: 1px; }
+        .logo span { color: var(--gold-primary); font-size: 0.65rem; display: block; letter-spacing: 4px; font-family: 'Inter', sans-serif; text-transform: uppercase; }
+
+        .nav-actions { display: flex; align-items: center; gap: 15px; }
+
+        .lang-switcher {
+            display: flex; align-items: center; gap: 5px; background: var(--bg-offwhite);
+            border: 1px solid var(--border-light); padding: 6px 12px; border-radius: 20px;
+        }
+        .lang-switcher i { color: var(--gold-primary); font-size: 0.9rem; }
+        .lang-switcher select { background: transparent; border: none; outline: none; color: var(--text-dark); font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+
+        .menu-btn { font-size: 1.6rem; color: var(--text-dark); cursor: pointer; background: none; border: none; transition: 0.3s; }
+        .menu-btn:hover { color: var(--gold-primary); transform: scale(1.1); }
+
+        .ticker-wrap {
+            margin-top: 76px; background: var(--text-dark); color: #fff; padding: 8px 0;
+            display: flex; align-items: center; font-size: 0.85rem; letter-spacing: 1px;
+        }
+        .ticker-title { background: var(--gold-primary); color: #fff; padding: 8px 20px; font-weight: 600; text-transform: uppercase; z-index: 2; flex-shrink: 0; }
+        .ticker-move { overflow: hidden; white-space: nowrap; width: 100%; padding-left: 20px; }
+        .ticker-move span { display: inline-block; animation: ticker 25s linear infinite; }
+        .ticker-move span b { color: var(--gold-primary); margin: 0 15px; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* ============================================================
+           SIDEBAR MENU (MULTI-PAGE LINKS)
+           ============================================================ */
+        .sidebar {
+            position: fixed; top: 0; right: -320px; width: 300px; height: 100vh; background: var(--bg-pure);
+            border-left: 1px solid var(--border-light); box-shadow: -10px 0 40px rgba(0,0,0,0.05);
+            transition: 0.4s ease; z-index: 2000; padding: 30px 20px; display: flex; flex-direction: column;
+        }
+        .sidebar.active { right: 0; }
+        .close-btn { font-size: 1.8rem; color: var(--text-dark); cursor: pointer; align-self: flex-end; margin-bottom: 10px; transition: 0.3s; background:none; border:none;}
+        .close-btn:hover { color: var(--gold-primary); transform: rotate(90deg); }
+        
+        .sidebar-links { display: flex; flex-direction: column; gap: 5px; flex-grow: 1; overflow-y: auto; }
+        .sidebar-links a {
+            color: var(--text-dark); text-decoration: none; font-size: 1rem; font-weight: 500;
+            padding: 12px 15px; border-bottom: 1px solid var(--bg-offwhite); display: flex; align-items: center; gap: 15px; border-radius: 8px; transition: var(--transition);
+        }
+        .sidebar-links a i { color: var(--gold-primary); width: 20px; text-align: center; }
+        .sidebar-links a:hover { background: var(--bg-offwhite); padding-left: 20px; color: var(--gold-primary); }
+
+        .auth-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-light); }
+        .login-btn {
+            width: 100%; padding: 14px; background: var(--gold-primary); color: #fff; border: none;
+            border-radius: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.3s;
+        }
+        .login-btn:hover { background: var(--text-dark); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        /* ============================================================
+           SECTIONS (CORE STYLING)
+           ============================================================ */
+        section { padding: 80px 5%; max-width: 1300px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 2.5rem; color: var(--text-dark); margin-bottom: 10px;}
+        .section-header h2 span { color: var(--gold-primary); }
+        .section-header p { color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto; }
+        
+        .btn-outline {
+            display: inline-block; padding: 12px 30px; border: 2px solid var(--gold-primary); color: var(--gold-primary);
+            border-radius: 30px; text-decoration: none; font-weight: 600; transition: var(--transition);
+        }
+        .btn-outline:hover { background: var(--gold-primary); color: #fff; box-shadow: var(--shadow-hover); }
+
+        /* ============================================================
+           HERO & RESERVED PHOTO SPACE
+           ============================================================ */
+        .hero { padding: 60px 5% 40px; text-align: center; background: linear-gradient(180deg, var(--bg-offwhite) 0%, var(--bg-pure) 100%); }
+        .hero-badge { color: var(--gold-primary); font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; display: inline-block; }
+        .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); color: var(--text-dark); line-height: 1.1; margin-bottom: 30px; }
+        .hero h1 span { color: var(--gold-primary); }
+
+        .director-reserved-space {
+            max-width: 900px; margin: 20px auto 0; background: var(--bg-pure); border: 1px solid var(--border-light);
+            border-radius: 20px; padding: 40px; box-shadow: var(--shadow-soft); display: flex; align-items: center; gap: 40px; text-align: left;
+        }
+        .photo-placeholder {
+            width: 200px; height: 200px; border-radius: 50%; background: var(--bg-offwhite); border: 3px dashed var(--gold-primary);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.8rem; flex-shrink: 0; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.15);
+        }
+        .quote-placeholder { flex-grow: 1; }
+        .quote-placeholder i { font-size: 2.5rem; color: var(--gold-primary); opacity: 0.3; margin-bottom: 15px; }
+        .quote-placeholder p { font-style: italic; color: var(--text-muted); line-height: 1.8; font-size: 1.1rem; }
+        .quote-placeholder h4 { margin-top: 15px; color: var(--text-dark); font-size: 1.1rem; }
+        .quote-placeholder span { font-size: 0.85rem; color: var(--gold-primary); font-weight: 600; }
+
+        /* ============================================================
+           GALLERY OVERVIEW (6 SPACES)
+           ============================================================ */
+        .gallery-overview-section { margin-top: 60px; text-align: center; }
+        .gallery-overview-section h3 { margin-bottom: 30px; color: var(--text-dark); font-size: 1.8rem; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; }
+        .card-placeholder {
+            height: 220px; border-radius: 12px; background: var(--bg-offwhite); border: 2px dashed var(--gold-primary);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.85rem; font-weight: 500; box-shadow: var(--shadow-soft); transition: var(--transition);
+        }
+        .card-placeholder:hover { transform: translateY(-5px); border-style: solid; box-shadow: var(--shadow-hover); }
+
+        /* ============================================================
+           SEAT AVAILABILITY (LIVE)
+           ============================================================ */
+        #seats { background: var(--bg-offwhite); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); padding: 60px 5%; text-align: center; }
+        .seat-status-box { background: var(--bg-pure); max-width: 600px; margin: 0 auto; padding: 40px; border-radius: 16px; border: 1px solid var(--gold-primary); box-shadow: var(--shadow-hover); position: relative; overflow: hidden; }
+        .seat-status-box::before { content: "LIVE"; position: absolute; top: 15px; right: -25px; background: #e11d48; color: #fff; font-size: 0.7rem; font-weight: bold; padding: 5px 30px; transform: rotate(45deg); letter-spacing: 1px;}
+        .seat-numbers { display: flex; justify-content: space-around; margin-top: 20px; }
+        .seat-numbers div { text-align: center; }
+        .seat-numbers h1 { font-size: 3rem; color: var(--text-dark); line-height: 1; }
+        .seat-numbers h1.available { color: #16a34a; }
+        .seat-numbers span { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        /* ============================================================
+           EXAMS & PYQ PREVIEW
+           ============================================================ */
+        .exam-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .exam-card { background: var(--bg-pure); border: 1px solid var(--border-light); border-radius: 16px; padding: 40px 30px; text-align: center; transition: var(--transition); box-shadow: var(--shadow-soft); position: relative; overflow: hidden; }
+        .exam-card::after { content:''; position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: var(--gold-primary); transform: scaleX(0); transition: var(--transition); }
+        .exam-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); }
+        .exam-card:hover::after { transform: scaleX(1); }
+        .exam-icon { width: 70px; height: 70px; margin: 0 auto 20px; background: var(--bg-offwhite); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--gold-primary); }
+        .exam-card h3 { font-size: 1.4rem; margin-bottom: 15px; color: var(--text-dark); }
+        .exam-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; }
+
+        /* ============================================================
+           NOTICE BOARD
+           ============================================================ */
+        .news-box { background: var(--bg-pure); border: 1px solid var(--border-light); border-radius: 16px; padding: 40px; box-shadow: var(--shadow-soft); max-width: 800px; margin: 0 auto; }
+        .news-item { border-bottom: 1px solid var(--border-light); padding: 15px 0; }
+        .news-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .news-date { font-size: 0.75rem; color: var(--gold-primary); font-weight: 600; letter-spacing: 1px; display: block; margin-bottom: 5px; }
+        .news-title { font-size: 1.05rem; color: var(--text-dark); font-weight: 500; text-decoration: none; transition: 0.3s; }
+        .news-title:hover { color: var(--gold-primary); }
+
+        /* ============================================================
+           IMPORTANT LINKS
+           ============================================================ */
+        .important-links-wrapper { padding: 60px 5%; background: var(--bg-offwhite); text-align: center; border-top: 1px solid var(--border-light); }
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .imp-link-card { background: var(--bg-pure); border: 1px solid var(--border-light); padding: 25px 15px; border-radius: 12px; text-decoration: none; color: var(--text-dark); display: flex; flex-direction: column; align-items: center; gap: 15px; transition: var(--transition); box-shadow: var(--shadow-soft); }
+        .imp-link-card i { font-size: 2.2rem; color: var(--gold-primary); transition: 0.3s; }
+        .imp-link-card span { font-size: 0.95rem; font-weight: 600; letter-spacing: 0.5px; }
+        .imp-link-card:hover { border-color: var(--gold-primary); transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+        .imp-link-card:hover i { transform: scale(1.1); }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        footer { background: var(--text-dark); color: #fff; padding: 50px 5% 30px; text-align: center; }
+        .footer-logo { font-size: 1.8rem; font-weight: 800; font-family: 'Playfair Display', serif; margin-bottom: 10px;}
+        .footer-logo span { color: var(--gold-primary); }
+        .footer-bottom { margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; color: #9ca3af; line-height: 1.8; }
+        .footer-bottom a { color: var(--gold-primary); text-decoration: none; font-weight: 600; }
+
+        /* ============================================================
+           MODALS (DUAL LOGIN)
+           ============================================================ */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; visibility: hidden; transition: var(--transition); }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-box { background: var(--bg-pure); width: 90%; max-width: 400px; padding: 40px; border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); position: relative; transform: translateY(20px); transition: var(--transition); text-align: center; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-close { position: absolute; top: 15px; right: 15px; font-size: 1.2rem; background: none; border: none; color: var(--text-muted); cursor: pointer; }
+        .login-choice { padding: 15px; border: 1px solid var(--border-light); border-radius: 10px; background: var(--bg-offwhite); cursor: pointer; display: flex; align-items: center; gap: 15px; font-weight: 600; margin-bottom: 15px; transition: var(--transition); text-align: left;}
+        .login-choice:hover { border-color: var(--gold-primary); background: var(--bg-pure); box-shadow: 0 5px 15px rgba(212,175,55,0.1); }
+        .login-choice i { font-size: 1.5rem; color: var(--gold-primary); width: 30px; text-align: center; }
+
+        @media (max-width: 900px) {
+            .director-reserved-space { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">APNA <span>Library</span></div>
+        <div class="nav-actions">
+            <div class="lang-switcher">
+                <i class="fas fa-globe"></i>
+                <select id="langSelect" onchange="changeLanguage(this.value)">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="hr">हरियाणवी</option>
+                </select>
+            </div>
+            <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars-staggered"></i></button>
+        </div>
+    </nav>
+
+    <!-- LIVE NOTIFICATION TICKER -->
+    <div class="ticker-wrap">
+        <div class="ticker-title" data-i18n="ticker_title">Live Updates</div>
+        <div class="ticker-move">
+            <span>
+                <b>•</b> Sarkari Result: UPSC CSE 2026 Prelims Notification Released 
+                <b>•</b> Notice: UP Police Constable Final Result Declared 
+                <b>•</b> Alert: SSC CGL Tier 1 Answer Key Available 
+                <b>•</b> Apna Library: Few seats remaining for the morning batch!
+            </span>
+        </div>
+    </div>
+
+    <!-- SIDEBAR MENU (ALL LINKS POINT TO SEPARATE PAGES) -->
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
+        <div class="sidebar-links">
+            <a href="index.html"><i class="fas fa-home"></i> <span data-i18n="menu_home">Home</span></a>
+            <a href="query.html"><i class="fas fa-headset"></i> <span data-i18n="menu_query">Query</span></a>
+            <a href="seats.html"><i class="fas fa-chair"></i> <span data-i18n="menu_seats">Seat Availability</span></a>
+            <a href="gallery.html"><i class="fas fa-images"></i> <span data-i18n="menu_gallery">Gallery</span></a>
+            <a href="successors.html"><i class="fas fa-award"></i> <span data-i18n="menu_success">Successors</span></a>
+            <a href="category.html"><i class="fas fa-file-pdf"></i> <span data-i18n="menu_pyq">PYQ Papers</span></a>
+            <a href="contact.html"><i class="fas fa-address-book"></i> <span data-i18n="menu_contact">Contact</span></a>
+        </div>
+        <div class="auth-section">
+            <button class="login-btn" onclick="openLoginModal()" data-i18n="menu_login"><i class="fas fa-sign-in-alt"></i> Login / Register</button>
+        </div>
+    </div>
+
+    <!-- HERO SECTION & RESERVED PHOTO SPACE -->
+    <section class="hero">
+        <span class="hero-badge" data-i18n="hero_badge">Exclusive Study Environment</span>
+        <h1 data-i18n="hero_title">Welcome to <span>Apna Library</span></h1>
+        
+        <!-- RESERVED SPACE FOR PHOTO & QUOTE -->
+        <div class="director-reserved-space">
+            <div class="photo-placeholder">
+                <i class="fas fa-camera" style="font-size:2rem; margin-bottom:10px;"></i>
+                [Photo Space]
+            </div>
+            <div class="quote-placeholder">
+                <i class="fas fa-quote-left"></i>
+                <p data-i18n="hero_quote">"Success is not just about hard work, it is about working in the right environment with the right resources. We provide the silence, you provide the dedication."</p>
+                <h4 data-i18n="hero_director_name">Ashutosh Singh</h4>
+                <span data-i18n="hero_director_title">Founder & Director</span>
+            </div>
+        </div>
+
+        <!-- GALLERY OVERVIEW (6 SPACES) -->
+        <div class="gallery-overview-section">
+            <h3 class="serif" data-i18n="gallery_overview">Gallery Overview</h3>
+            <div class="cards-grid">
+                <div class="card-placeholder"><i class="fas fa-image" style="font-size:1.5rem; margin-bottom:10px;"></i>[Gallery Image 1]</div>
+                <div class="card-placeholder"><i class="fas fa-image" style="font-size:1.5rem; margin-bottom:10px;"></i>[Gallery Image 2]</div>
+                <div class="card-placeholder"><i class="fas fa-image" style="font-size:1.5rem; margin-bottom:10px;"></i>[Gallery Image 3]</div>
+                <div class="card-placeholder"><i class="fas fa-image" style="font-size:1.5rem; margin-bottom:10px;"></i>[Gallery Image 4]</div>
+                <div class="card-placeholder"><i class="fas fa-image" style="font-size:1.5rem; margin-bottom:10px;"></i>[Gallery Image 5]</div>
+                <div class="card-placeholder"><i class="fas fa-image" style="font-size:1.5rem; margin-bottom:10px;"></i>[Gallery Image 6]</div>
+            </div>
+            <a href="gallery.html" class="btn-outline" style="margin-top: 30px;" data-i18n="view_full_gallery">View Full Gallery</a>
+        </div>
+    </section>
+
+    <!-- SEAT AVAILABILITY PREVIEW -->
+    <section id="seats">
+        <div class="section-header">
+            <h2>Live Seat <span>Availability</span></h2>
+            <p>Check real-time occupancy before you visit</p>
+        </div>
+        <div class="seat-status-box">
+            <h3 class="serif" style="margin-bottom: 20px;">Current Hall Status</h3>
+            <div class="seat-numbers">
+                <div>
+                    <h1>120</h1>
+                    <span>Total Seats</span>
+                </div>
+                <div>
+                    <h1 class="available">18</h1>
+                    <span>Available Now</span>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="seats.html" class="btn-outline">Detailed View & Booking</a>
+        </div>
+    </section>
+
+    <!-- EXAMS & PYQ PREVIEW -->
+    <section id="exams">
+        <div class="section-header">
+            <h2>Exam <span>Categories & PYQs</span></h2>
+            <p>Access previous year papers and resources across all major sectors</p>
+        </div>
+        <div class="exam-grid">
+            <div class="exam-card">
+                <div class="exam-icon"><i class="fas fa-landmark"></i></div>
+                <h3>UPSC & Central</h3>
+                <p>Civil Services, SSC CGL, CHSL, and Railway PYQs.</p>
+                <a href="category.html" class="btn-gold" style="padding: 10px 20px; font-size:0.85rem; text-decoration:none; display:inline-block;">Access Papers</a>
+            </div>
+            <div class="exam-card">
+                <div class="exam-icon"><i class="fas fa-map-location-dot"></i></div>
+                <h3>State PSC & Police</h3>
+                <p>UPPSC, BPSC, UP Police, Daroga, and State Exams.</p>
+                <a href="category.html" class="btn-gold" style="padding: 10px 20px; font-size:0.85rem; text-decoration:none; display:inline-block;">Access Papers</a>
+            </div>
+            <div class="exam-card">
+                <div class="exam-icon"><i class="fas fa-shield-halved"></i></div>
+                <h3>Defence & Teaching</h3>
+                <p>NDA, CDS, AFCAT, CTET, SuperTET resources.</p>
+                <a href="category.html" class="btn-gold" style="padding: 10px 20px; font-size:0.85rem; text-decoration:none; display:inline-block;">Access Papers</a>
+            </div>
+            <div class="exam-card">
+                <div class="exam-icon"><i class="fas fa-school"></i></div>
+                <h3>JEE, NEET & Boards</h3>
+                <p>Engineering, Medical and CBSE/ICSE/State Boards.</p>
+                <a href="category.html" class="btn-gold" style="padding: 10px 20px; font-size:0.85rem; text-decoration:none; display:inline-block;">Access Papers</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOTICE BOARD (CENTERED) -->
+    <section id="notice-board">
+        <div class="section-header">
+            <h2>Notice <span>Board</span></h2>
+            <p>Latest announcements and library updates</p>
+        </div>
+        <div class="news-box">
+            <div class="news-item">
+                <span class="news-date">Latest Update</span>
+                <a href="#" class="news-title">New Batch of "The Hindu" and "Indian Express" arrived.</a>
+            </div>
+            <div class="news-item">
+                <span class="news-date">Announcement</span>
+                <a href="#" class="news-title">Library timings extended. Now open 24x7 for Mains Aspirants.</a>
+            </div>
+            <div class="news-item">
+                <span class="news-date">Infrastructure</span>
+                <a href="#" class="news-title">High-Speed 5G Wi-Fi upgraded for seamless mock tests.</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPORTANT LINKS -->
+    <section class="important-links-wrapper">
+        <h2 data-i18n="important_links_title">Important <span>Links</span></h2>
+        <div class="links-grid">
+            <a href="https://upsc.gov.in/" target="_blank" class="imp-link-card"><i class="fas fa-building-columns"></i><span>UPSC</span></a>
+            <a href="https://uppsc.up.nic.in/" target="_blank" class="imp-link-card"><i class="fas fa-landmark-flag"></i><span>UPPSC</span></a>
+            <a href="https://upsssc.gov.in/" target="_blank" class="imp-link-card"><i class="fas fa-file-signature"></i><span>UPSSSC</span></a>
+            <a href="https://jeemain.nta.ac.in/" target="_blank" class="imp-link-card"><i class="fas fa-laptop-code"></i><span>JEE Main</span></a>
+            <a href="https://neet.nta.nic.in/" target="_blank" class="imp-link-card"><i class="fas fa-user-md"></i><span>NEET (UG)</span></a>
+            <a href="https://www.sarkariresult.com/" target="_blank" class="imp-link-card"><i class="fas fa-globe"></i><span>Sarkari Result</span></a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">APNA <span>Library</span></div>
+        <p style="color:#9ca3af; font-size:0.9rem; max-width:600px; margin: 10px auto 0;">Your ultimate destination for focused preparation. We provide an ecosystem designed for success.</p>
+        <p style="margin-top: 15px; font-size: 0.9rem;">
+            <i class="fas fa-envelope" style="color:var(--gold-primary); margin-right:5px;"></i> ashutoshs123445@gmail.com &nbsp;|&nbsp; 
+            <i class="fas fa-phone-alt" style="color:var(--gold-primary); margin-right:5px;"></i> +91 9336543886
+        </p>
+        <div class="footer-bottom">
+            &copy; 2026 Apna Library. All Rights Reserved. <br><br>
+            <i class="fas fa-code" style="color:var(--gold-primary);"></i> Made by <a href="https://ashutoshsingh.online" target="_blank">ashutoshsingh.online</a>
+        </div>
+    </footer>
+
+    <!-- LOGIN SELECTION MODAL -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeLoginModal()"><i class="fas fa-times"></i></button>
+            <h2 class="serif" data-i18n="modal_title">Secure Portal</h2>
+            <p data-i18n="modal_desc" style="color:var(--text-muted); margin-bottom:20px;">Select your role to continue</p>
+            
+            <div class="login-choice" onclick="alert('Proceeding to Candidate Login (OTP via Email / Google Auth)')">
+                <i class="fas fa-user-graduate"></i>
+                <div>
+                    <div style="font-size: 1.1rem; color:var(--text-dark);" data-i18n="modal_candidate">Candidate Login</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 400;" data-i18n="modal_cand_desc">Access PYQs & Seat Status</div>
+                </div>
+            </div>
+            
+            <div class="login-choice" onclick="alert('Proceeding to Admin Login (Secured via OTP for 9336543886)')">
+                <i class="fas fa-shield-alt"></i>
+                <div>
+                    <div style="font-size: 1.1rem; color:var(--text-dark);" data-i18n="modal_admin">Admin Login</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 400;" data-i18n="modal_admin_desc">Manage Notifications & Database</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         JAVASCRIPT LOGIC
+         ============================================================ -->
+    <script>
+        // Sidebar Logic
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
+
+        // Modal Logic
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+            if(document.getElementById('sidebar').classList.contains('active')){ toggleSidebar(); }
+        }
+        function closeLoginModal() { document.getElementById('loginModal').classList.remove('active'); }
+        window.onclick = function(event) { if (event.target == document.getElementById('loginModal')) { closeLoginModal(); } }
+
+        // i18n Language Translation Logic
+        const translations = {
+            en: {
+                ticker_title: "Live Updates",
+                menu_home: "Home", menu_query: "Query", menu_seats: "Seat Availability", menu_gallery: "Gallery",
+                menu_success: "Successors", menu_pyq: "PYQ Papers", menu_contact: "Contact", menu_login: "Login / Register",
+                hero_badge: "Exclusive Study Environment", hero_title: "Welcome to <span>Apna Library</span>",
+                hero_quote: "\"Success is not just about hard work, it is about working in the right environment with the right resources. We provide the silence, you provide the dedication.\"",
+                hero_director_name: "Ashutosh Singh", hero_director_title: "Founder & Director",
+                gallery_overview: "Gallery Overview", view_full_gallery: "View Full Gallery",
+                important_links_title: "Important <span>Links</span>",
+                modal_title: "Secure Portal", modal_desc: "Select your role to continue", modal_candidate: "Candidate Login",
+                modal_cand_desc: "Access PYQs & Seat Status", modal_admin: "Admin Login", modal_admin_desc: "Manage Notifications & Database"
+            },
+            hi: {
+                ticker_title: "ताज़ा खबरें",
+                menu_home: "होम", menu_query: "पूछताछ", menu_seats: "सीट उपलब्धता", menu_gallery: "गैलरी",
+                menu_success: "सफल छात्र", menu_pyq: "पिछले साल के पेपर", menu_contact: "संपर्क करें", menu_login: "लॉगिन करें",
+                hero_badge: "उत्कृष्ट अध्ययन का माहौल", hero_title: "<span>अपना लाइब्रेरी</span> में आपका स्वागत है",
+                hero_quote: "\"सफलता केवल कड़ी मेहनत के बारे में नहीं है, यह सही संसाधनों के साथ सही माहौल में काम करने के बारे में है। हम शांति प्रदान करते हैं, आप समर्पण प्रदान करें।\"",
+                hero_director_name: "आशुतोष सिंह", hero_director_title: "संस्थापक और निदेशक",
+                gallery_overview: "गैलरी अवलोकन", view_full_gallery: "पूरी गैलरी देखें",
+                important_links_title: "महत्वपूर्ण <span>लिंक</span>",
+                modal_title: "सुरक्षित पोर्टल", modal_desc: "आगे बढ़ने के लिए अपनी भूमिका चुनें", modal_candidate: "छात्र लॉगिन",
+                modal_cand_desc: "पेपर और सीट की स्थिति देखें", modal_admin: "व्यवस्थापक लॉगिन", modal_admin_desc: "डेटाबेस प्रबंधित करें"
+            },
+            hr: { 
+                ticker_title: "ताज़ा खबर",
+                menu_home: "घर", menu_query: "सवाळ-जवाब", menu_seats: "सीट खाली सै के", menu_gallery: "फोटो",
+                menu_success: "पास होण आले", menu_pyq: "पुराणे पेपर", menu_contact: "संपर्क", menu_login: "लॉगिन",
+                hero_badge: "पढ़ाई का नंबर 1 अड्डा", hero_title: "<span>अपना लाइब्रेरी</span> में थारा स्वागत सै",
+                hero_quote: "\"कामयाबी खाली मेहनत तै ना मिलती, सही माहौल अर साधानां की भी जरूरत होवै सै। शांति हम द्येंगे, जी जान तुम लगाओ।\"",
+                hero_director_name: "आशुतोष सिंह", hero_director_title: "संस्थापक",
+                gallery_overview: "फोटो की झलक", view_full_gallery: "सारी फोटो देखो",
+                important_links_title: "जरूरी <span>लिंक</span>",
+                modal_title: "लॉगिन", modal_desc: "अंदर जावण खातिर चुणो", modal_candidate: "बालक लॉगिन",
+                modal_cand_desc: "पेपर अर सीट देखो", modal_admin: "मालिक लॉगिन", modal_admin_desc: "वेबसाइट चलाओ"
+            }
+        };
+
+        function changeLanguage(lang) {
+            localStorage.setItem('apnalib_lang', lang);
+            document.getElementById('langSelect').value = lang;
+            const currentDict = translations[lang] || translations['en'];
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (currentDict[key]) { element.innerHTML = currentDict[key]; }
+            });
+        }
+
+        window.onload = function() {
+            const savedLang = localStorage.getItem('apnalib_lang') || 'en';
+            changeLanguage(savedLang);
+        };
+    </script>
+</body>
+</html>
