@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — APNA LIBRARY</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  body{background:var(--shelf)}
+  .admin-shell{display:flex;min-height:100vh}
+  .sidebar{width:240px;background:var(--navy-deep);color:#fff;flex-shrink:0;display:flex;flex-direction:column}
+  .sidebar .brand{padding:24px 22px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .sidebar .brand b{color:#fff}
+  .sidebar nav{padding:16px 12px;flex:1}
+  .sidebar nav button{
+    display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:12px 14px;
+    background:none;border:none;color:#B9C2D6;font-size:13.5px;font-weight:500;border-radius:4px;cursor:pointer;margin-bottom:4px;
+  }
+  .sidebar nav button:hover{background:rgba(255,255,255,.06);color:#fff}
+  .sidebar nav button.active{background:var(--gold);color:#12172B;font-weight:600}
+  .sidebar .logout{padding:16px 22px;border-top:1px solid rgba(255,255,255,.1)}
+  .sidebar .logout button{width:100%;padding:10px;background:rgba(255,255,255,.08);border:none;color:#fff;border-radius:4px;cursor:pointer;font-size:13px}
+
+  .main-area{flex:1;padding:36px 40px;overflow-y:auto}
+  .admin-panel{display:none}
+  .admin-panel.active{display:block}
+  .panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+  .panel-head h2{font-size:24px;color:var(--navy-deep)}
+
+  .data-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:2px;overflow:hidden}
+  .data-table th{text-align:left;font-size:11px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);background:var(--shelf);padding:12px 16px}
+  .data-table td{padding:12px 16px;font-size:13.5px;border-top:1px solid var(--line)}
+  .row-actions{display:flex;gap:8px}
+  .row-actions button{border:none;background:none;cursor:pointer;font-size:13px;color:var(--navy);font-weight:600}
+  .row-actions .del{color:var(--maroon)}
+
+  .admin-form{background:#fff;border:1px solid var(--line);border-radius:2px;padding:24px;margin-bottom:24px;max-width:640px}
+  .admin-form .field label{color:var(--ink-soft)}
+  .admin-form .field input,.admin-form .field select,.admin-form .field textarea{
+    background:#fff;border:1px solid var(--line);color:var(--ink)
+  }
+  .admin-form .field textarea{min-height:70px}
+
+  #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--shelf)}
+  .login-box{background:#fff;border:1px solid var(--line);border-radius:2px;box-shadow:var(--shadow-lift);padding:44px;width:380px}
+  .login-box h1{font-size:22px;color:var(--navy-deep);text-align:center}
+  .login-box p{font-size:13px;color:var(--ink-soft);text-align:center;margin-top:6px}
+  .login-box .field{margin-top:20px}
+  .login-box .field label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);text-transform:uppercase;display:block;margin-bottom:6px}
+  .login-box .field input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:2px;font-size:14px}
+  .login-box button{width:100%;margin-top:22px;padding:13px;background:var(--navy);color:#fff;border:none;border-radius:2px;font-weight:600;cursor:pointer}
+  .login-error{color:var(--maroon);font-size:12.5px;margin-top:12px;text-align:center;display:none}
+  .setup-note{background:#FDF3E0;border:1px solid var(--gold-soft);border-radius:2px;padding:14px 16px;font-size:12.5px;color:#7A5A17;margin-top:20px;line-height:1.6}
+  .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10.5px;font-family:'IBM Plex Mono',monospace}
+  .badge-yes{background:#EAF6EF;color:var(--green)}
+</style>
+</head>
+<body>
+
+<!-- ===================== LOGIN SCREEN ===================== -->
+<div id="login-screen">
+  <div class="login-box">
+    <span style="display:block;text-align:center;font-size:30px">🔐</span>
+    <h1 style="margin-top:10px">APNA LIBRARY</h1>
+    <p>Admin Panel Login</p>
+    <div class="field">
+      <label>Email</label>
+      <input id="login-email" type="email" placeholder="admin@apnalibrary.in">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input id="login-password" type="password" placeholder="••••••••">
+    </div>
+    <button id="login-btn">Login →</button>
+    <p class="login-error" id="login-error">Galat email ya password.</p>
+    <div class="setup-note">
+      <b>Pehli baar setup kar rahe ho?</b><br>
+      README.md mein diye steps follow karo: Supabase project banao → SQL schema run karo → Authentication mein apna admin email/password add karo → <code>supabase-client.js</code> mein URL aur key paste karo.
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADMIN DASHBOARD ===================== -->
+<div class="admin-shell" id="admin-shell" style="display:none">
+  <aside class="sidebar">
+    <div class="brand"><b style="font-family:'Fraunces',serif;font-size:18px">APNA LIBRARY</b><div style="font-size:11px;color:#8B96AE;margin-top:2px">Admin Dashboard</div></div>
+    <nav id="sidebar-nav">
+      <button class="active" data-panel="overview">📊 Overview</button>
+      <button data-panel="exams">📚 Exams</button>
+      <button data-panel="notifications">📰 Notifications</button>
+      <button data-panel="gallery">🖼️ Gallery</button>
+      <button data-panel="queries">💬 Queries</button>
+      <button data-panel="settings">⚙️ Site Settings</button>
+    </nav>
+    <div class="logout"><button id="logout-btn">Log Out</button></div>
+  </aside>
+
+  <main class="main-area">
+
+    <!-- OVERVIEW -->
+    <section class="admin-panel active" id="panel-overview">
+      <div class="panel-head"><h2>Overview</h2></div>
+      <div class="info-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+        <div class="info-box" style="background:#fff;border:1px solid var(--line);padding:20px;border-radius:2px"><div class="eyebrow">Total Exams</div><p id="stat-exams" style="font-size:26px;font-family:'Fraunces',serif;font-weight:600">—</p></div>
+        <div class="info-box" style="background:#fff;border:1px solid var(--line);padding:20px;border-radius:2px"><div class="eyebrow">Notifications</div><p id="stat-notifs" style="font-size:26px;font-family:'Fraunces',serif;font-weight:600">—</p></div>
+        <div class="info-box" style="background:#fff;border:1px solid var(--line);padding:20px;border-radius:2px"><div class="eyebrow">Gallery Images</div><p id="stat-gallery" style="font-size:26px;font-family:'Fraunces',serif;font-weight:600">—</p></div>
+        <div class="info-box" style="background:#fff;border:1px solid var(--line);padding:20px;border-radius:2px"><div class="eyebrow">New Queries</div><p id="stat-queries" style="font-size:26px;font-family:'Fraunces',serif;font-weight:600">—</p></div>
+      </div>
+      <p style="margin-top:24px;font-size:13.5px;color:var(--ink-soft)">Left menu se Exams, Notifications, Gallery add/edit/delete karo — website automatically update ho jayegi, koi code nahi chhuna padega.</p>
+    </section>
+
+    <!-- EXAMS -->
+    <section class="admin-panel" id="panel-exams">
+      <div class="panel-head"><h2>Exams</h2><button class="btn btn-primary" id="add-exam-btn">+ Add New Exam</button></div>
+      <form class="admin-form" id="exam-form" style="display:none">
+        <input type="hidden" id="exam-edit-id">
+        <div class="field"><label>Exam ID (unique, e.g. "nda")</label><input id="exam-id" required></div>
+        <div class="field"><label>Name</label><input id="exam-name-input" required></div>
+        <div class="field"><label>Full Name</label><input id="exam-fullname-input"></div>
+        <div class="field"><label>Category</label>
+          <select id="exam-category-input">
+            <option value="defence">Defence</option><option value="ssc">SSC</option><option value="banking">Banking & Insurance</option>
+            <option value="railway">Railway</option><option value="state">State Exams</option><option value="teaching">Teaching</option>
+            <option value="engineering">Engineering & Technical</option><option value="medical">Medical</option>
+            <option value="school-entrance">School Entrance</option><option value="university">University Entrance</option><option value="police">Police & Paramilitary</option>
+          </select>
+        </div>
+        <div class="field"><label>Overview — Hinglish</label><textarea id="exam-overview-hg"></textarea></div>
+        <div class="field"><label>Overview — English</label><textarea id="exam-overview-en"></textarea></div>
+        <div class="field"><label>Eligibility — Hinglish</label><textarea id="exam-eligibility-hg"></textarea></div>
+        <div class="field"><label>Eligibility — English</label><textarea id="exam-eligibility-en"></textarea></div>
+        <div class="field"><label>Exam Pattern — Hinglish</label><textarea id="exam-pattern-hg"></textarea></div>
+        <div class="field"><label>Exam Pattern — English</label><textarea id="exam-pattern-en"></textarea></div>
+        <details style="margin-bottom:16px">
+          <summary style="cursor:pointer;font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--maroon);text-transform:uppercase;letter-spacing:.06em;padding:8px 0">+ More Languages (हिन्दी / বাংলা / मराठी) — Optional</summary>
+          <div style="padding-top:10px">
+            <div class="field"><label>Overview — हिन्दी</label><textarea id="exam-overview-hi"></textarea></div>
+            <div class="field"><label>Overview — বাংলা</label><textarea id="exam-overview-bn"></textarea></div>
+            <div class="field"><label>Overview — मराठी</label><textarea id="exam-overview-mr"></textarea></div>
+            <div class="field"><label>Eligibility — हिन्दी</label><textarea id="exam-eligibility-hi"></textarea></div>
+            <div class="field"><label>Eligibility — বাংলা</label><textarea id="exam-eligibility-bn"></textarea></div>
+            <div class="field"><label>Eligibility — मराठी</label><textarea id="exam-eligibility-mr"></textarea></div>
+            <div class="field"><label>Exam Pattern — हिन्दी</label><textarea id="exam-pattern-hi"></textarea></div>
+            <div class="field"><label>Exam Pattern — বাংলা</label><textarea id="exam-pattern-bn"></textarea></div>
+            <div class="field"><label>Exam Pattern — मराठी</label><textarea id="exam-pattern-mr"></textarea></div>
+          </div>
+        </details>
+        <p style="font-size:12px;color:var(--ink-soft);margin:-6px 0 16px">Agar कोई language खाली छोड़ोगे, to website automatically English/Hinglish dikha degi jab tak yahan translation add na ho.</p>
+        <div class="field"><label>Official Website</label><input id="exam-official-input" placeholder="https://..."></div>
+        <div class="field"><label>Apply Link</label><input id="exam-apply-input" placeholder="https://..."></div>
+        <div class="field"><label>Trending?</label><select id="exam-trending-input"><option value="false">No</option><option value="true">Yes</option></select></div>
+        <div style="display:flex;gap:10px"><button type="submit" class="btn btn-primary">Save Exam</button><button type="button" id="cancel-exam-btn" class="btn btn-outline">Cancel</button></div>
+      </form>
+      <table class="data-table"><thead><tr><th>ID</th><th>Name</th><th>Category</th><th>Trending</th><th>Actions</th></tr></thead><tbody id="exams-table-body"></tbody></table>
+    </section>
+
+    <!-- NOTIFICATIONS -->
+    <section class="admin-panel" id="panel-notifications">
+      <div class="panel-head"><h2>Notifications</h2><button class="btn btn-primary" id="add-notif-btn">+ Add Notification</button></div>
+      <form class="admin-form" id="notif-form" style="display:none">
+        <input type="hidden" id="notif-edit-id">
+        <div class="field"><label>Title</label><input id="notif-title-input" required></div>
+        <div class="field"><label>Related Exam ID</label><input id="notif-examid-input" placeholder="e.g. nda"></div>
+        <div class="field"><label>Tag</label>
+          <select id="notif-tag-input"><option>New</option><option>Update</option><option>Admit Card</option><option>Answer Key</option><option>Result</option><option>Apply</option></select>
+        </div>
+        <div class="field"><label>PDF / Notice Link</label><input id="notif-pdf-input" placeholder="https://..."></div>
+        <div style="display:flex;gap:10px"><button type="submit" class="btn btn-primary">Save</button><button type="button" id="cancel-notif-btn" class="btn btn-outline">Cancel</button></div>
+      </form>
+      <table class="data-table"><thead><tr><th>Title</th><th>Tag</th><th>Exam</th><th>Date</th><th>Actions</th></tr></thead><tbody id="notifs-table-body"></tbody></table>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="admin-panel" id="panel-gallery">
+      <div class="panel-head"><h2>Gallery</h2></div>
+      <form class="admin-form" id="gallery-form">
+        <div class="field"><label>Upload Image</label><input id="gallery-file-input" type="file" accept="image/*"></div>
+        <div class="field"><label>Caption</label><input id="gallery-caption-input" placeholder="e.g. Library Reading Hall"></div>
+        <div class="field"><label>Category</label><input id="gallery-category-input" placeholder="Campus / Events / Achievements"></div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </form>
+      <div class="gallery-grid" id="gallery-admin-grid" style="margin-top:20px"></div>
+    </section>
+
+    <!-- QUERIES -->
+    <section class="admin-panel" id="panel-queries">
+      <div class="panel-head"><h2>Queries</h2></div>
+      <table class="data-table"><thead><tr><th>Name</th><th>Mobile</th><th>Exam</th><th>Message</th><th>Date</th></tr></thead><tbody id="queries-table-body"></tbody></table>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="admin-panel" id="panel-settings">
+      <div class="panel-head"><h2>Site Settings</h2></div>
+      <form class="admin-form" id="settings-form">
+        <div class="field"><label>Address</label><textarea id="set-address"></textarea></div>
+        <div class="field"><label>Phone</label><input id="set-phone"></div>
+        <div class="field"><label>Email</label><input id="set-email"></div>
+        <div class="field"><label>WhatsApp Number (with country code, e.g. 91XXXXXXXXXX)</label><input id="set-whatsapp"></div>
+        <div class="field"><label>Working Hours</label><input id="set-hours"></div>
+        <div class="field"><label>Director Message</label><textarea id="set-director-msg"></textarea></div>
+        <div class="field"><label>Director Name</label><input id="set-director-name"></div>
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+      </form>
+    </section>
+
+  </main>
+</div>
+
+<script src="../assets/js/supabase-client.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
